@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>bKalcul</title>
+</h:head>
+<h:body>
+
+	<h:outputStylesheet>
+		body .ui-menu {
+			border: none !important;
+		}
+	</h:outputStylesheet>
+	<h:form>
+
+		<p:menubar>
+			<p:menuitem value="Home" icon="pi pi-home" url="/admin.xhtml">
+			</p:menuitem>
+
+			<p:menuitem value="About" icon="pi pi-about" url="/customers.xhtml">
+			</p:menuitem>
+
+			<f:facet name="options">
+				<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
+					value="bKalcul | Momentum"></p:outputLabel>
+
+				<p:commandButton value="Basic Calculator" icon="pi pi-plus"
+					action="#{adminBean.showBasicCalc()}"
+					style="margin:1px 10px 1px 1px;"
+					styleClass="ui-button-raised ui-button-primary">
+				</p:commandButton>
+
+				<p:commandButton type="button" value="Logout" icon="pi pi-home"
+					action="user.logout()"
+					styleClass="ui-button-outlined ui-button-secondary" />
+
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+	<p:divider></p:divider>
+
+	<h:form id="form" style="margin-top:1em;">
+
+		<p:growl id="message" sticky="true" showDetail="true" />
+
+		<p:panel id="panel" header="Advanced Calculator"
+			style="width: 600px; margin: 0 auto;">
+
+			<h:panelGrid id="opPanel" width="100%">
+				<p:outputLabel for="request"
+					value="You can type an expression like : (5+3-2*(9-3))^4 or pi*2!+2e"></p:outputLabel>
+				<p:inputTextarea id="request" style="text-align: right; width:100%"
+					value="#{advancedCalculator.request}"
+					placeholder="Type an expression" required="true"
+					modifyValueOnWheel="false" emptyValue="0"></p:inputTextarea>
+				<p:message for="request" />
+				<p:spacer />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="1" width="100%">
+				<center style="width: 100%">
+					<p:commandButton id="evaluate" value="Evaluate" style="width:100%"
+						action="#{advancedCalculator.performEvaluation()}"
+						update="messages">
+					</p:commandButton>
+				</center>
+
+			</h:panelGrid>
+			<p:messages id="messages" showDetail="true" closable="false">
+				<p:autoUpdate />
+			</p:messages>
+		</p:panel>
+
+
+	</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>bKalcul | Admin</title>
+</h:head>
+<h:body>
+
+	<h:outputStylesheet>
+		body .ui-menu {
+			border: none !important;
+		}
+	</h:outputStylesheet>
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:menubar>
+			<p:menuitem value="Home" icon="pi pi-home" url="/admin.xhtml">
+			</p:menuitem>
+
+			<p:menuitem value="About" icon="pi pi-about" url="/customers.xhtml">
+			</p:menuitem>
+
+			<f:facet name="options">
+				<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
+					value="bKalcul | Momentum"></p:outputLabel>
+
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+	<p:divider></p:divider>
+
+	<div class="card crud-demo"
+		style="margin-left: 2em; margin-right: 2em;">
+		<h:form id="form">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Basic Calculator" icon="pi pi-plus"
+						action="#{adminBean.showBasicCalc()}" style="margin-right: .5rem"
+						styleClass="ui-button-raised ui-button-secondary">
+					</p:commandButton>
+					<p:commandButton value="Advanced Calculator" icon="pi pi-plus"
+						action="#{adminBean.showAdvancedCalc()}"
+						styleClass="ui-button-raised ui-button-secondary">
+					</p:commandButton>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+
+					<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
+						value="Filter"></p:outputLabel>
+						
+					<p:selectOneMenu id="optUsername" style="margin:1px 10px 1px 1px;" value="#{record.usernameFilter}"
+						>
+						<p:ajax listener="#{record.onUserNameChange()}"
+							update="tableRecords" />
+						<f:selectItem itemLabel="Select an user" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{user.usersList()}" var="u"
+							itemLabel="#{u.username}" itemValue="#{u.username}" />
+					</p:selectOneMenu>
+
+					<p:datePicker id="range" selectionMode="range"
+						style="margin:1px 10px 1px 1px;" value="#{record.dateRange}"
+						readonlyInput="true" placeholder="Filter by a range of a date " />
+
+					<p:commandButton icon="pi pi-search"
+						style="margin:1px 10px 1px 1px;" action="#{record.updateFilter()}"
+						update="tableRecords" />
+						
+					<p:commandButton value="Cancel" styleClass="ui-button-flat ui-button-secondary"
+						style="margin:1px 15px 1px 1px;" action="#{record.cancelFilter()}"
+						update="tableRecords" />
+
+					<p:divider layout="vertical"></p:divider>
+
+					<p:commandButton value="Export" icon="pi pi-upload"
+						styleClass="ui-button-help" ajax="false">
+						<p:dataExporter type="pdf" target="tableRecords"
+							fileName="records" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="tableRecords" widgetVar="tableRecords" var="record"
+				value="#{record.recordsList()}" reflow="true"
+				styleClass="products-table" rowKey="#{record.calcRequest}" paginator="true"
+				rows="10" paginatorPosition="bottom"
+				style="margin:1em;">
+				<f:facet name="header">
+					<div class="products-table-header">
+						<span style="font-weight: bold">ALL RECORDS</span> 
+						<span
+							class="filter-container ui-input-icon-left"> 
+							<i class="pi pi-search"></i> 
+							<p:inputText id="globalFilter"
+								onkeyup="PF('tableRecords').filter()"
+								placeholder="Type a word to search for" />
+						</span>
+
+					</div>
+				</f:facet>
+
+				<p:column headerText="User" sortBy="#{record.username}"
+					filterBy="#{record.username}">
+					<h:outputText value="#{record.username}" />
+				</p:column>
+				<p:column headerText="Request" sortBy="#{record.calcRequest}">
+					<h:outputText value="#{record.calcRequest}" />
+				</p:column>
+				<p:column headerText="Result" sortBy="#{record.answer}"
+					filterBy="#{record.answer}">
+					<h:outputText value="#{record.answer}" style="font-weight: 700" />
+				</p:column>
+				<p:column headerText="Time" sortBy="#{record.timeCalc}">
+					<h:outputText value="#{record.timeCalc}" />
+				</p:column>
+				<p:column headerText="Date added" sortBy="#{record.dateInserted}">
+					<h:outputText value="#{record.dateInserted}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</div>
+</h:body>
+</html>

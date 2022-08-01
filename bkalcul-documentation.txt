@@ -1,0 +1,33 @@
+bkalcul - momentum
+
+<-- Database -->
+	Database name -> bkalcul
+Table (2)
+	user {username(primary key, varchar(50), password(varchar(20), notnull), isAdmin(boolean))
+	record {id(primary key, int(20), auto-implement), calcRequest(text, notnull), answer(text, notnull), 
+		timeCalc(int(20)), dateInserted(datatime, default:current-time-stamp)}
+SQL Requests
+CREATE DATABASE 'bkalcul'
+CREATE TABLE 'bkalcul'.'user' ('username' VARCHAR(50) NOT NULL , 'password' VARCHAR(20) NOT NULL ,
+			'isAdmin' BOOLEAN NOT NULL DEFAULT FALSE , PRIMARY KEY ('username')) ENGINE = InnoDB;
+CREATE TABLE 'bkalcul'.'record' ('id' INT(20) NOT NULL AUTO_INCREMENT , 'calcRequest' TEXT NOT NULL , 'answer' TEXT NOT NULL , 'calcTime' INT(20) NOT NULL , 'dateInserted' DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY ('id')) ENGINE = InnoDB;
+
+<-- GUI Interface -->
+
+1. Login : index.xhtml
+2. basicKalcul : basic.xhtml
+3. advancedKalcul : advanced.xhtml
+4. adminInterface : admin.xhtml
+
+<-- Sources (MVC architecture)-->
+
+//Bitbucket link 
+Git -> https://bitbucket.org/benikalonga/bkalcul/src/main/
+//Red hat
+
+
+
+
+<-- Data in DBB -->
+User{benikalonga, bkalcul)
+Admin {benikalongadmin, bkalcul}
