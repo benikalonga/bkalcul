@@ -1,23 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
 ## [Unreleased]
 ### Added
-- Marketing banner to prompt users to upgrade to a free account
+- Manage users by the admin (CRUD operations on users)
+- Sign in, so an user can create an account 
+- Export and import the records' list
 
 ### Changed
 
-## 2017-03-06
+## [1.0.0] 2022-08-02
 ### Added
-- New simplified registration form for free users @evanagee
-- New stripe responder for successful charges
-- Update Salesforce membership record when first payment is received
-- Ability for users to edit their membership
-- Meta titles/descriptions throughout the app
+- The changelog.md file
 
 ### Changed
-- Updated registration flow
-- Removed title length restriction from resource cards
+- Update the readme.md file
