@@ -1,12 +1,13 @@
 package beni.momentum.bkalcul.models;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
 import beni.momentum.bkalcul.controlers.UserDAO;
@@ -44,7 +45,9 @@ public class User implements Serializable {
 	}	
 	
 	public User() {
-		if(Session.get().getUser() != null) {
+		
+		
+		if(Session.get().getUser() != null ) {
     		User user = Session.get().getUser();
     		
     		System.out.println("User exist" +user);
@@ -52,6 +55,16 @@ public class User implements Serializable {
     		setUsername(user.username);
     		setPassword(password);
     		setAdmin(user.isAdmin);
+    		
+    		if(Utils.getRequest().getServletPath().contains("index.xhtml")) {
+    			if(user.isAdmin) {
+					Utils.redirectTo("admin.xhtml");
+        		}else {
+					Utils.redirectTo("basic.xhtml");
+        		}
+    		}		
+    	}else {
+    		
     	}
 	}
 	public List<User> usersList(){
@@ -71,8 +84,14 @@ public class User implements Serializable {
 			return "";
 		}
 		else {
-			Session.get().putUser(user);
-			System.out.println("Save User "+user.toString());			
+			try {
+				Session.get().putUser(user);
+				System.out.println("Save User "+user.toString());			
+				
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			if(user.isAdmin) {
 				return "/admin.xhtml?faces-redirect=true";
 			}
@@ -82,7 +101,14 @@ public class User implements Serializable {
 		}
 		
 	}
-	public String logout() {
-		return "/index.xhtml?faces-redirect=true";
+	public void logout() {
+		try {
+			Session.get().delelteUser();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("User LogOut");
+		Utils.redirectTo("index.xhtml");
 	}	
 }

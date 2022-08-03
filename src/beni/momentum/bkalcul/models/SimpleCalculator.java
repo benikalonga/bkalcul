@@ -81,21 +81,30 @@ public class SimpleCalculator {
 
 	public void performEvaluation() {
 
+		String curOp = operande;
+		
+		if(curOp.equals("−")) curOp = "-";
+		else if(curOp.equals("x")) curOp = "*";
+		else if(curOp.equals("÷")) curOp = "/";
+		
 		//Calls the Calculator class and get the result
-		String reqst = new StringBuilder().append(firstOp).append(operande).append(secondOp).toString();
+		String reqst = new StringBuilder().append(firstOp).append(curOp).append(secondOp).toString();
+		
 		Bkalculator.getCalculator().evaluate(reqst, (req, res, time) -> {
 
 			System.out.println(req + " = " + res);
 			System.out.println("Time executed " + time);
 			
-			setRequest(req);
+			setRequest(firstOp+operande+secondOp);
 			setResult(res);
 			setTimeElapsed(time);
 			
 			recordRequest();
 			
-			Utils.addMessage(FacesMessage.SEVERITY_INFO, req+"="+res, "\nTime taken : "+time+" nanosecs");
+
+			Utils.addMessage("messages",FacesMessage.SEVERITY_INFO, request+"="+res, "\nTime taken : "+time+" nanosecs");
 			
+	
 		});
 
 	}
@@ -104,10 +113,17 @@ public class SimpleCalculator {
 
 		User user = Session.get().getUser();
 		
-		System.out.println("User "+user.getUsername());
+		try {
+			System.out.println("User "+user.getUsername());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String currentUser = user == null || Utils.isTxtEmpty(user.username)? "---" : user.username;
 		
 		Record r = new Record();
-		r.setUsername(user.username);
+		r.setUsername(currentUser);
 		r.setCalcRequest(request);
 		r.setAnswer(result);
 		r.setTimeCalc(timeElapsed);
@@ -117,6 +133,14 @@ public class SimpleCalculator {
 		
 		recordsList.add(r);
 	}
+	
+	public boolean renderMessage() {
+		return !Utils.isTxtEmpty(result);
+	}
+	public String getMessage() {
+		return "";
+	}
+	
 
 	public List<Record> getRecordsList() {
 		return recordsList;

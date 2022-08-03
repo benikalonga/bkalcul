@@ -1,27 +1,37 @@
 # bkalcul - Momentum
 ## by Beni Kalonga - Technical Assignment
 
-[![Build Status](https://travis-ci.org/ElliottLandsborough/dog-ceo-api.svg?branch=master)](apk/BeniDogApi.apk)
-[![CircleCI](https://circleci.com/gh/ElliottLandsborough/dog-ceo-api.svg?style=svg)](apk/BeniDogApi.apk)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28e7bd35f2fe4d42a19aec5f705c5024)](app/src/main)
+[![Build Status](https://travis-ci.org/ElliottLandsborough/dog-ceo-api.svg?branch=master)](src/)
+[![CircleCI](https://circleci.com/gh/ElliottLandsborough/dog-ceo-api.svg?style=svg)](/WebContent)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28e7bd35f2fe4d42a19aec5f705c5024)](src/)
 
 
-The link of the web site [Dog Api Demo](apk/BeniDogApi.apk) 👍
+The link to the web site : [BKalcul - Momentum](https://bkalcul.herokuapp.com/) 👍
+
+The link to the git repository [BKalcul Bit](https://bitbucket.org/benikalonga/bkalcul/src/master/) 👍
+
+
+### User {username:benikalonga, password:bkalcul)
+### Admin (username:admin, password:admin)
 
 # Depencies and Libraries
 [In the pom.xml file](pom.xml)
 
-- [PrimeFaces](https://square.github.io/retrofit/) is a library layered atop of OkHttp that aims to simplify making REST-style Web service calls. You use annotations on a Java/Kotlin interface to describe the REST URLs that you wish to access, along with the HTTP operations to perform (e.g., GET, POST, PUT).
-- [JSF ](https://bumptech.github.io/glide/) According to me, Glide is a fast and efficient image loading library for Android focused on smooth scrolling. Glide offers an easy to use API, a performant and extensible resource decoding pipeline and automatic resource pooling
+- [PrimeFaces](https://www.primefaces.org/) is a popular open source framework for JavaServer Faces featuring over 100 components, touch optimized mobilekit, client side validation, theme engine and more.
+
+- [JSF ](https://www.tutorialspoint.com/jsf/index.htm) Java Server Faces (JSF) is a Java-based web application framework intended to simplify development integration of web-based user interfaces. JavaServer Faces is a standardized display technology, which was formalized in a specification through the Java Community Process.
 
 # Architecture (MVC)
 ### Model - View - Controler
-The MVC is a Model-View-Controler architecture that removes the tight coupling between each component. Most importantly, in this architecture, the children don't have the direct reference to the parent, they only have the reference by observables.
-- Model: It represents the data and the business logic of the Android Application. It consists of the business logic - local and remote data source, model classes, repository.
-- View: It consists of the UI Code(Activity, Fragment), XML. It sends the user action to the ViewModel but does not get the response back directly. To get the response, it has to subscribe to the observables which ViewModel exposes to it.
-- ViewModel: It is a bridge between the View and Model(business logic). It does not have any clue which View has to use it as it does not have a direct reference to the View. So basically, the ViewModel should not be aware of the view who is interacting with. It interacts with the Model and exposes the observable that can be observed by the View.
+The MVC is an architectural pattern consisting of three parts: Model, View, Controller. Model: Handles data logic. View: It displays the information from the model to the user. Controller: It controls the data flow into a model object and updates the view whenever data changes
 
-# Database
+- Model: Handles data logic.
+- View: It displays the information from the model to the user.
+- Controller: It controls the data flow into a model object and updates the view whenever data changes.
+
+# Server Apache Tomcat 9.5.0
+
+# Database MariaDB
   Database name -> bkalcul
 Table (2)
 	user {username(primary key, varchar(50), password(varchar(20), notnull), isAdmin(boolean))
@@ -41,6 +51,7 @@ CREATE TABLE 'bkalcul'.'record' ('id' INT(20) NOT NULL AUTO_INCREMENT , 'calcReq
 2. basicKalcul : basic.xhtml
 3. advancedKalcul : advanced.xhtml
 4. adminInterface : admin.xhtml
+5. About : about.xhtml
 
 ## Java classes
 
@@ -51,12 +62,13 @@ CREATE TABLE 'bkalcul'.'record' ('id' INT(20) NOT NULL AUTO_INCREMENT , 'calcReq
 4. AdvancedCalculator (ManagedBean)
 
 5. UserDAO Data access object for the user
-6. Record DAO Data access object to get and handle access of data
+6. RecordDAO Data access object to get and handle access of data
 8. Utils a static class providing some feature
 9. Session a class that handle the session for the loggin 
 
 10. Bkalculator a class that evaluate and solve all mathematic expressions
 11. DBConnexion a class that handles the connectivity between the app and the MariaBD Database
+12. Router a class that manages the routing of some URLs;
 
 
 ## Features implemented
@@ -67,12 +79,3 @@ According to the requierement,
 3. Advanced calculation screen containing one text input field : DONE. it solves complex mathematic expressions keeping the operators precedence 
 4. Each calculation done must be recorded for audit purposes in the database. The following must be recorded: DONE
 5. Provide an additional screen to allow an administrator to query the audit log using filters like username and from and to date to narrow the search results
-
-
-//Bitbucket link 
-Git -> https://bitbucket.org/benikalonga/bkalcul/src/main/
-//Red hat
-
-<-- Data in DBB -->
-User{benikalonga, bkalcul)
-Admin {benikalongadmin, bkalcul}

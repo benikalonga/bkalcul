@@ -73,22 +73,22 @@ public class RecordDAO implements DbDAO<Record> {
 
 	@Override
 	public ArrayList<Record> readAll() {
-		return readAllBySQL("select * from records");
+		return readAllBySQL("select * from records ORDER BY id Desc");
 	}
 
 	public ArrayList<Record> readAllByUsername(String username) {
-		String sql = "select * from records where username='" + username + "'";
+		String sql = "select * from records where username='" + username + "' ORDER BY id Desc" ;
 		return readAllBySQL(sql);
 	}
 
 	public ArrayList<Record> readAllByDate(String from, String to) {
-		String sql = "select * from records where dateInserted between '" + from + "' AND '" + to + "'";
+		String sql = "select * from records where dateInserted between '" + from + "' AND '" + to + "' ORDER BY id Desc";
 		return readAllBySQL(sql);
 	}
 
 	public ArrayList<Record> readAllByUsernameDate(String username, String from, String to) {
-		String sql = "select * from records where username = '" + username + "' dateInserted between='" + from
-				+ "' AND '" + to + "'";
+		String sql = "select * from records where username = '" + username + "' AND dateInserted between '" + from
+				+ "' AND '" + to + "' ORDER BY id Desc" ;
 		return readAllBySQL(sql);
 	}
 
@@ -105,6 +105,7 @@ public class RecordDAO implements DbDAO<Record> {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		System.out.println("Requ "+sql);
 
 		System.out.println(records);
 		

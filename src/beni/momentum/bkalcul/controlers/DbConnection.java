@@ -12,12 +12,12 @@ public class DbConnection {
 	private static String dbUser = "beni_bkalcul";
 	private static String dbPassword = "bkalcul_momentum";
 	
-	/*
-	 * private static String dbUrl = "localhost:3306/"; 
-	 * private static String dbName = "bkalcul"; 
-	 * private static String dbUser = "root"; 
-	 * private static String dbPassword = "";
-	 */
+	
+	/*private static String dbUrl = "localhost:3306/"; 
+	private static String dbName = "bkalcul"; 
+	private static String dbUser = "root"; 
+	private static String dbPassword = "";
+	*/
 	
 	// Used to establish connection
 	public static Connection getConnection() {

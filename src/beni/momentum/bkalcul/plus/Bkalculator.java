@@ -150,8 +150,7 @@ public final class Bkalculator {
 						// If it's not un operande then its a value
 						if (!listOperators.contains(cVL)) {
 							vL = cVL + vL;
-						}
-						else if(cVL == SUB)
+						} else if (cVL == SUB)
 							vL = cVL + vL;
 						else
 							break;
@@ -179,10 +178,14 @@ public final class Bkalculator {
 							break;
 					}
 					// String evaluate the expression;
-					String value = operate(vL, c, vR);
+					
+					String value = operate(Utils.isTxtEmpty(vL)? "2": vL, c, vR);
 					String subExp = vL + (c == POW ? "\\" + c : c) + vR;
 
 					exp = exp.replaceAll(subExp, value);
+
+					System.out.println(vL+c+vR+"="+value+" "+subExp+" "+exp);
+
 					break;
 				}
 			}
@@ -277,7 +280,7 @@ public final class Bkalculator {
 				char c = exp.charAt(i);
 
 				boolean isBreak = false;
-				
+
 				if (c == ADD || c == SUB) {
 
 					int pVL = i, pVR = i;
@@ -292,12 +295,12 @@ public final class Bkalculator {
 
 						// if found a operator and values was no found
 						if (listOperators.contains(cVL) && !foundV) {
-							if(c == SUB) {
-								exp = exp.substring(0, pVL)+exp.substring(pVL+1, exp.length());
+							if (c == SUB) {
+								exp = exp.substring(0, pVL) + exp.substring(pVL + 1, exp.length());
 								isBreak = true;
 							}
 							break;
-							
+
 						}
 						// if found an operator and value found
 						else if (listOperators.contains(cVL) && foundV) {
@@ -311,7 +314,7 @@ public final class Bkalculator {
 						} else
 							break;
 					}
-					if(isBreak)
+					if (isBreak)
 						break;
 					// Second Right
 
@@ -324,12 +327,11 @@ public final class Bkalculator {
 							vR = vR + cVR;
 						} else
 							break;
-
 					}
 					// String evaluate the expression;
-					
-					System.out.println("Decoded "+vL+" "+c+" "+ vR);
-					
+
+					System.out.println("Decoded " + vL + " " + c + " " + vR);
+
 					String value = operate(vL, c, vR);
 					String subExp = vL + "\\" + c + vR;
 					if (subExp.startsWith("+")) {
@@ -400,10 +402,10 @@ public final class Bkalculator {
 		}
 	}
 
-
 	/**
 	 * A function that check if a string contains a factorial expression an evaluate
 	 * e.g 5! = 120, !5 = 120, 5!2 = (5!)*2= 240
+	 * 
 	 * @param exp
 	 * @return the factorial value
 	 */
@@ -412,12 +414,12 @@ public final class Bkalculator {
 		if (exp.contains(FACT)) {
 
 			String[] nums = exp.split(FACT);
-			
-			if(nums == null || nums.length == 0) {
+
+			if (nums == null || nums.length == 0) {
 				return "";
 			}
-			
-			if(nums.length == 1) {
+
+			if (nums.length == 1) {
 				long n = Long.parseLong(nums[0]);
 				long f = n;
 				while (n > 1) {
@@ -430,17 +432,16 @@ public final class Bkalculator {
 			String num0 = nums[0];
 			String num1 = nums[1];
 			long f = 0;
-			if(!Utils.isTxtEmpty(num0)) {
+			if (!Utils.isTxtEmpty(num0)) {
 				long n = Long.parseLong(num0);
 				f = n;
 				while (n > 1) {
 					n--;
 					f *= n;
 				}
-				if(!Utils.isTxtEmpty(num1))
-					f*= Double.parseDouble(num1);
-			}
-			else {
+				if (!Utils.isTxtEmpty(num1))
+					f *= Double.parseDouble(num1);
+			} else {
 				long n = Long.parseLong(num1);
 				f = n;
 				while (n > 1) {

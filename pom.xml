@@ -7,6 +7,7 @@
 	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<build>
+
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
@@ -15,6 +16,8 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<fork>true</fork>
+					<executable>C:\Program Files\Java\jdk1.8.0_341\bin\javac</executable>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -23,6 +26,11 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.3</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -44,19 +52,21 @@
 			<artifactId>primefaces</artifactId>
 			<version>11.0.0</version>
 		</dependency>
-
 		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>all-themes</artifactId>
-			<version>1.0.10</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
 		</dependency>
+
 	</dependencies>
-	
-  <repositories>
-    <repository>
-      <id>primefaces-maven-repository</id>
-      <name>PrimeFaces Maven Repository</name>
-      <url>http://repository.primefaces.org</url>
-    </repository>
-  </repositories>
+
+	<repositories>
+		<repository>
+			<id>primefaces-maven-repository</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
+
 </project>

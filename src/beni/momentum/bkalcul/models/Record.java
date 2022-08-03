@@ -1,6 +1,8 @@
 package beni.momentum.bkalcul.models;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,12 +170,14 @@ public class Record {
 		// Filter
 		// if by username
 		
-		if(dateRange!=null) {
+		if(dateRange!=null && dateRange.size()>=2) {
 			java.util.Date d0 = dateRange.get(0);
 			java.util.Date d1 = dateRange.get(1);
 			
-			dateFrom = d0.getYear()+"-"+d0.getMonth()+"-"+d0.getDay();
-			dateTo = d1.getYear()+"-"+d1.getMonth()+"-"+d0.getDay();
+			DateFormat df = new SimpleDateFormat();
+			
+			dateFrom = df.format(d0);
+			dateTo = df.format(d1);
 			
 		}
 		
@@ -198,8 +202,7 @@ public class Record {
 	}
 	
 	public String detail(Record d) {
-		Session.get().sessionMap().put("recordDetail", d);
-		return "/detail.xhtml?faces-redirect=true";
+		return "/detail.xhtml?recordDetail="+d+"&faces-redirect=true";
 	}
 
 	public void delete(int i) {
@@ -210,7 +213,9 @@ public class Record {
 	@Override
 	public String toString() {
 		return "Record [id=" + id + ", calcRequest=" + calcRequest + ", answer=" + answer + ", timeCalc=" + timeCalc
-				+ ", dateInserted=" + dateInserted + "]";
+				+ ", dateInserted=" + dateInserted + ", username=" + username + "]";
 	}
+
+	
 
 }

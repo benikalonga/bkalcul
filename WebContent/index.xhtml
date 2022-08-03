@@ -7,14 +7,16 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>bKalcul | Login</title>
-
+	<link rel="shortcut icon" href="/resources/img/logo.png" type="image/x-icon"></link>
 </h:head>
 <h:body>
-	<div class = "card" style="width: 350px; margin: 0 auto;">
+
+	<div class="card" style="width: 350px; margin: 0 auto;">
 		<p:panel>
-			<p:outputLabel style=" text-align:center; width:100%" 
-				value="bKalcul | Welcome" />
-		
+			<img src="/resources/img/mom_large.png" width="300px" />
+			<center>
+				<b><p:outputLabel value="Welcome | Bkalcul"></p:outputLabel></b>
+			</center>
 		</p:panel>
 	</div>
 	<h:form id="loginForm" style="margin-top:1em;">
@@ -32,11 +34,21 @@
 				<p:password id="password" value="#{user.password}" feedback="false"></p:password>
 				<p:message for="password"></p:message>
 			</h:panelGrid>
-			<h:panelGrid columns="1" cellpadding="10" width="100%">
-				<p:commandButton id="loginButton" value="Login"
-					action="#{user.login()}" update="message">
-				</p:commandButton>
-			</h:panelGrid>
+			<div>
+				<center>
+					<p:commandButton style="width: 100%;" id="loginButton"
+						widgetVar="loginButton" value="Login" action="#{user.login()}"
+						update="message"
+						onstart="PF('loginButton').disable();PF('progressPanel').show();"
+						oncomplete="PF('loginButton').enable();PF('progressPanel').close();">
+					</p:commandButton>
+				</center>
+				<p:panel widgetVar="progressPanel" visible="false"
+					style="border:none; height:8px; padding: 0 0"  closable="true" toggleable="true">
+					<p:progressBar style="height:6px;width:100%;"
+						mode="indeterminate" />
+				</p:panel>
+			</div>
 		</p:panel>
 	</h:form>
 </h:body>

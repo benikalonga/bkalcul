@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 
 import beni.momentum.bkalcul.plus.Bkalculator;
 import beni.momentum.bkalcul.plus.Session;
@@ -43,19 +42,29 @@ public class AdvancedCalculator {
 
 	public void performEvaluation() {
 
+		String curReq = request;
+		 
+		curReq = curReq.replaceAll("π", "pi");
+		curReq = curReq.replaceAll("√", "r");
+		curReq = curReq.replaceAll("−", "-");
+		curReq = curReq.replaceAll("÷", "/");
+		curReq = curReq.replaceAll("x", "*");
+		
+		System.out.println("CurR "+curReq);
+		
 		//Calls the Calculator class and get the result
-		Bkalculator.getCalculator().evaluate(request, (req, res, time) -> {
+		Bkalculator.getCalculator().evaluate(curReq, (req, res, time) -> {
 
 			System.out.println(req + " = " + res);
 			System.out.println("Time executed " + time);
 			
-			setRequest(req);
+			setRequest(request);
 			setResult(res);
 			setTimeElapsed(time);
 			
 			recordRequest();
 
-			Utils.addMessage(FacesMessage.SEVERITY_INFO, req+"="+res, "\nTime taken : "+time+" nanosecs");
+			Utils.addMessage(FacesMessage.SEVERITY_INFO, request+"="+res, "\nTime taken : "+time+" nanosecs");
 
 		});
 
@@ -63,12 +72,17 @@ public class AdvancedCalculator {
 	
 	public void recordRequest() {
 
-		User user = Session.get().getUser();
+User user = Session.get().getUser();
 		
-		System.out.println("User "+user.getUsername());
+		try {
+			System.out.println("User "+user.getUsername());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		Record r = new Record();
-		r.setUsername(user.username);
+		r.setUsername(user == null || Utils.isTxtEmpty(user.username)? "---" : user.username);
 		r.setCalcRequest(request);
 		r.setAnswer(result);
 		r.setTimeCalc(timeElapsed);

@@ -5,7 +5,9 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>bKalcul</title>
+	<title>bKalcul | Basic calculator</title>
+	<link rel="shortcut icon" href="/resources/img/logo.png"
+		type="image/x-icon"></link>
 </h:head>
 <h:body>
 
@@ -17,25 +19,40 @@
 	<h:form>
 
 		<p:menubar>
-			<p:menuitem value="Home" icon="pi pi-home" url="/admin.xhtml">
+			<p:menuitem value="Home" icon="pi pi-home" url="#{router.showHome()}">
 			</p:menuitem>
 
-			<p:menuitem value="About" icon="pi pi-about" url="/customers.xhtml">
+			<p:menuitem value="About" icon="pi pi-about"
+				url="#{router.showAbout()}">
 			</p:menuitem>
 
 			<f:facet name="options">
+				<img style="margin: auto;" src="/resources/img/logo.png"
+					width="25px" />
 				<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
 					value="bKalcul | Momentum"></p:outputLabel>
 
 				<p:commandButton value="Advanced Calculator" icon="pi pi-plus"
-					action="#{adminBean.showAdvancedCalc()}"
+					action="#{router.showAdvancedCalc()}"
 					style="margin:1px 10px 1px 1px;"
 					styleClass="ui-button-raised ui-button-primary">
 				</p:commandButton>
 
-				<p:commandButton type="button" value="Logout" icon="pi pi-home"
-					action="user.logout()"
-					styleClass="ui-button-outlined ui-button-secondary" />
+
+				<p:commandButton value="Logout" action="#{user.logout()}"
+					styleClass="mr-2 ui-button-outlined ui-button-secondary"
+					icon="pi pi-home">
+					<p:confirm header="Confirmation"
+						message="Are you sure you want to logout"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="Cancel" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+					<p:commandButton value="Yes, I am" type="button"
+						styleClass="ui-confirmdialog-yes" />
+				</p:confirmDialog>
 
 			</f:facet>
 		</p:menubar>
@@ -45,8 +62,6 @@
 
 	<h:form id="Error" style="margin-top:1em;">
 
-		<p:growl id="message" sticky="true" showDetail="true" />
-
 		<p:panel id="panel" header="Basic Calculator"
 			style="width: 350px; margin: 0 auto;">
 
@@ -54,29 +69,45 @@
 
 			<h:panelGrid id="opPanel" width="100%">
 
-				<p:inputText id="firstOp" width="100%"
-					style="text-align: right; width:100%"
+				<p:keyboard id="firstOp" style="text-align: right ; width:100%"
 					value="#{simpleCalculator.firstOp}" placeholder="First value"
-					required="true" modifyValueOnWheel="false" emptyValue="0"></p:inputText>
+					required="true" modifyValueOnWheel="false" emptyValue="0"
+					converterMessage="This not a valide Number" layout="custom"
+					layoutTemplate="0123456789,.-back-clear-close" autocomplete="false" >
+
+				</p:keyboard>
+				<p:message for="firstOp" />
+				<p:keyboard id="operande" style="text-align: right ; width:100%"
+					value="#{simpleCalculator.operande}" placeholder="+, -, x, ÷, ^"
+					required="true" maxlength="1" layout="custom"
+					layoutTemplate="x&#x00f7;+&#x2212;^,-back-clear-close" autocomplete="false">
+
+				</p:keyboard>
 				<p:spacer />
-				<p:inputText id="operande" style="text-align: right ; width:100%"
-					value="#{simpleCalculator.operande}" placeholder="+, -, *, /, ^, e"
-					required="true" emptyValue="+"></p:inputText>
-				<p:spacer />
-				<p:inputText id="secondOp" style="text-align: right; width:100%"
+				<p:keyboard id="secondOp" style="text-align: right; width:100%"
 					value="#{simpleCalculator.secondOp}" placeholder="Second value"
-					required="true" modifyValueOnWheel="false" emptyValue="0"></p:inputText>
+					required="true" modifyValueOnWheel="false" emptyValue="0"
+					converterMessage="This not a valide Number" layout="custom"
+					layoutTemplate="0123456789,.-back-clear-close" autocomplete="false">
+				</p:keyboard>
+				<p:message for="secondOp" />
 
 			</h:panelGrid>
 
 			<h:panelGrid columns="2" width="100%">
-				<p:commandButton id="loginButton" value="Evaluate"
+				<p:commandButton id="evaluateButton" value="Evaluate"
 					style=" width:100%"
-					action="#{simpleCalculator.performEvaluation()}" update="messages">
+					action="#{simpleCalculator.performEvaluation()}" update="messages"
+					onstart="PF('evaluateButton').disable();PF('progressPanel').show();"
+					oncomplete="PF('evaluateButton').enable();PF('progressPanel').close();">
 				</p:commandButton>
 			</h:panelGrid>
+			<p:panel widgetVar="progressPanel" visible="false"
+				style="border:none; height:8px; padding: 0 0" closable="true"
+				toggleable="true">
+				<p:progressBar style="height:6px;width:100%;" mode="indeterminate" />
+			</p:panel>
 			<p:messages id="messages" showDetail="true" closable="false">
-				<p:autoUpdate />
 			</p:messages>
 		</p:panel>
 	</h:form>

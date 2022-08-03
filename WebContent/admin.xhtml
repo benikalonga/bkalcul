@@ -8,6 +8,8 @@
 
 <h:head>
 	<title>bKalcul | Admin</title>
+	<link rel="shortcut icon" href="/resources/img/logo.png"
+		type="image/x-icon"></link>
 </h:head>
 <h:body>
 
@@ -20,16 +22,34 @@
 		<p:growl id="messages" />
 
 		<p:menubar>
-			<p:menuitem value="Home" icon="pi pi-home" url="/admin.xhtml">
+			<p:menuitem value="Home" icon="pi pi-home"
+				url="#{router.showAdmin()}">
 			</p:menuitem>
 
-			<p:menuitem value="About" icon="pi pi-about" url="/customers.xhtml">
+			<p:menuitem value="About" icon="pi pi-about"
+				url="#{router.showAbout()}">
 			</p:menuitem>
 
 			<f:facet name="options">
+				<img style="margin: auto;" src="/resources/img/logo.png"
+					width="25px" />
 				<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
 					value="bKalcul | Momentum"></p:outputLabel>
-
+					
+				<p:commandButton value="Logout" action="#{user.logout()}"
+					styleClass="mr-2 ui-button-outlined ui-button-secondary"
+					icon="pi pi-home">
+					<p:confirm header="Confirmation"
+						message="Are you sure you want to logout"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="Cancel" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+					<p:commandButton value="Yes, I am" type="button"
+						styleClass="ui-confirmdialog-yes" />
+				</p:confirmDialog>
 			</f:facet>
 		</p:menubar>
 	</h:form>
@@ -44,11 +64,11 @@
 			<p:toolbar>
 				<p:toolbarGroup>
 					<p:commandButton value="Basic Calculator" icon="pi pi-plus"
-						action="#{adminBean.showBasicCalc()}" style="margin-right: .5rem"
+						action="#{router.showBasicCalc()}" style="margin-right: .5rem"
 						styleClass="ui-button-raised ui-button-secondary">
 					</p:commandButton>
 					<p:commandButton value="Advanced Calculator" icon="pi pi-plus"
-						action="#{adminBean.showAdvancedCalc()}"
+						action="#{router.showAdvancedCalc()}"
 						styleClass="ui-button-raised ui-button-secondary">
 					</p:commandButton>
 				</p:toolbarGroup>
@@ -56,9 +76,9 @@
 
 					<p:outputLabel style="margin:1px 10px 1px 1px;" icon="pi pi-home"
 						value="Filter"></p:outputLabel>
-						
-					<p:selectOneMenu id="optUsername" style="margin:1px 10px 1px 1px;" value="#{record.usernameFilter}"
-						>
+
+					<p:selectOneMenu id="optUsername" style="margin:1px 10px 1px 1px;"
+						value="#{record.usernameFilter}">
 						<p:ajax listener="#{record.onUserNameChange()}"
 							update="tableRecords" />
 						<f:selectItem itemLabel="Select an user" itemValue=""
@@ -74,33 +94,28 @@
 					<p:commandButton icon="pi pi-search"
 						style="margin:1px 10px 1px 1px;" action="#{record.updateFilter()}"
 						update="tableRecords" />
-						
-					<p:commandButton value="Cancel" styleClass="ui-button-flat ui-button-secondary"
-						style="margin:1px 15px 1px 1px;" action="#{record.cancelFilter()}"
-						update="tableRecords" />
 
 					<p:divider layout="vertical"></p:divider>
 
-					<p:commandButton value="Export" icon="pi pi-upload"
-						styleClass="ui-button-help" ajax="false">
-						<p:dataExporter type="pdf" target="tableRecords"
-							fileName="records" />
-					</p:commandButton>
+					<p:commandButton value="Cancel"
+						styleClass="ui-button-flat ui-button-secondary"
+						action="#{record.cancelFilter()}"
+						update="tableRecords optUsername range" />
+
+
 				</p:toolbarGroup>
 			</p:toolbar>
 
 			<p:dataTable id="tableRecords" widgetVar="tableRecords" var="record"
 				value="#{record.recordsList()}" reflow="true"
-				styleClass="products-table" rowKey="#{record.calcRequest}" paginator="true"
-				rows="10" paginatorPosition="bottom"
+				styleClass="products-table" rowKey="#{record.calcRequest}"
+				paginator="true" rows="10" paginatorPosition="bottom"
 				style="margin:1em;">
 				<f:facet name="header">
 					<div class="products-table-header">
-						<span style="font-weight: bold">ALL RECORDS</span> 
-						<span
-							class="filter-container ui-input-icon-left"> 
-							<i class="pi pi-search"></i> 
-							<p:inputText id="globalFilter"
+						<span style="font-weight: bold">ALL RECORDS</span> <span
+							class="filter-container ui-input-icon-left"> <i
+							class="pi pi-search"></i> <p:inputText id="globalFilter"
 								onkeyup="PF('tableRecords').filter()"
 								placeholder="Type a word to search for" />
 						</span>

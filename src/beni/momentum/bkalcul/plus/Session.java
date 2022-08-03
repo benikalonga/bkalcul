@@ -1,8 +1,10 @@
+
 package beni.momentum.bkalcul.plus;
 
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import beni.momentum.bkalcul.models.User;
 
@@ -15,7 +17,7 @@ import beni.momentum.bkalcul.models.User;
 public class Session {
 	
 
-	private Map<String,Object> sessionMap;
+	private HttpSession httpSession;
 	
 	public static Session session;
 	public static Session get() {
@@ -26,22 +28,25 @@ public class Session {
 	}
 	
 	private Session() {
-		sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		httpSession = (HttpSession) facesContext.getExternalContext().getSession(true);
+		
 	}
 	public User getUser() {
-		if(sessionMap.get("userSession") != null) {
-			return (User) sessionMap.get("userSession");
+		if(httpSession.getAttribute("userSession") != null) {
+			return (User) httpSession.getAttribute("userSession");
 		}
 		return null ;
 	}
 	public void putUser(User user) {
-		sessionMap.put("userSession", user);
+		httpSession.setAttribute("userSession", user);
 	}
 	public void delelteUser() {
-		sessionMap.remove("userSession");
+		httpSession.removeAttribute("userSession");
 	}
-	public  Map<String,Object> sessionMap() {
-		return sessionMap;
+	public  HttpSession httpSession() {
+		return httpSession;
 	}
 	
 }
